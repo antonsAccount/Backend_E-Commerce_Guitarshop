@@ -1,0 +1,8 @@
+-create updateInstruments Route and Controller
+-check updateInstruments Obj Destructuring Logic and Route
+-in the Instruments.findByIdAndUpdate call, does the newInstrument have to be in Curly Braces or not?
+-research response status codes and implement them in each controller file
+-check whether deleteInstrument works
+
+
+Shopping Cart Schema, Route and Controller!

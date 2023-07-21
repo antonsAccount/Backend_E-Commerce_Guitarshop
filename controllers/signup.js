@@ -1,14 +1,15 @@
 const Users = require("../schemas/Users");
-
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 
-// const createToken = (_id) => {
-//   return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "1d" });
-// };
+const createToken = (_id) => {
+  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "1d" });
+};
 
 const signup = async (req, res) => {
   try {
+    console.log("Signup Tree initialized".blue);
     const { first_name, last_name, birthday, email, password } = req.body;
     const exists = await Users.findOne({ email });
     if (exists) {
@@ -42,9 +43,12 @@ const signup = async (req, res) => {
       email,
       password: hash,
     });
-    return res.status(200).json({ msg: "success", user });
+    console.log("after user");
+    const token = await createToken(user._id);
+    console.log("after token");
+    return res.status(200).json({ msg: "success", token });
   } catch (error) {
-    res.status(400).json({ msg: error });
+    res.status(400).json({ msg: "something went wrong", error });
   }
 };
 
