@@ -18,6 +18,7 @@ const addInstrument = async (req, res) => {
       pickups,
       body,
       neck,
+      storage_quantity,
     } = req.body;
     console.log(req.file);
     if (req.file && req.file.path) {
@@ -37,6 +38,7 @@ const addInstrument = async (req, res) => {
         pickups,
         body,
         neck,
+        storage_quantity,
         image_url: req.file.path,
       });
 
@@ -54,16 +56,35 @@ const addInstrument = async (req, res) => {
   }
 };
 
+const getAllInstruments = async (req, res) => {
+  try {
+    const data = await Instruments.find({});
+    res.status(200).json({ data });
+  } catch (error) {
+    res.status(400).json({ msg: "Something went wrong" });
+  }
+};
+
 const updateInstrument = async (req, res) => {
   try {
+    console.log("Update Instrument Tree".blue);
     const _id = req.params.id;
     const newInstrument = {};
     const keysArray = Object.keys(req.body);
     const var1 = keysArray.map((element) => {
       newInstrument[element] = req.body[element];
     });
-    const res = Instruments.findByIdAndUpdate(_id, { newInstrument }); //Curly Braces necessary?!?!
-    return res.status(200).json({ msg: "Success", updatedInstrument: res });
+    console.log(req.file);
+    console.log(newInstrument);
+    if (req.file && req.file.path) {
+      newInstrument.image_url = req.file.path;
+    }
+    const updatedInstrument = await Instruments.findByIdAndUpdate(
+      _id,
+      newInstrument,
+      { new: true }
+    ); //Curly Braces necessary?!?!
+    return res.status(200).json({ msg: "Success", updatedInstrument });
   } catch (error) {
     res.status(400).json({
       msg: "An error has occurred whilst updating the instrument",
@@ -75,11 +96,16 @@ const updateInstrument = async (req, res) => {
 const deleteInstrument = async (req, res) => {
   try {
     const _id = req.params.id;
-    const res = await Instruments.findByIdAndDelete(_id);
-    res.status(200).json({ msg: "Success", deleted: res });
+    const deletedInstrument = await Instruments.findByIdAndDelete(_id);
+    return res.status(200).json({ msg: "Success", deletedInstrument });
   } catch (error) {
     res.status(400).json({ msg: "The following error occurred", error });
   }
 };
 
-module.exports = { addInstrument, updateInstrument, deleteInstrument };
+module.exports = {
+  addInstrument,
+  getAllInstruments,
+  updateInstrument,
+  deleteInstrument,
+};
