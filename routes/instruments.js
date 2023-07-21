@@ -4,12 +4,14 @@ const upload = require("../services/upload");
 
 const {
   addInstrument,
+  getAllInstruments,
   updateInstrument,
   deleteInstrument,
 } = require("../controllers/instruments");
 
+router.get("/", getAllInstruments);
 router.post("/", upload.single("picture"), addInstrument);
-router.post("/:id", upload.single("picture"), updateInstrument);
+router.put("/:id", upload.single("picture"), updateInstrument);
 router.delete("/:id", deleteInstrument);
 
 module.exports = router;

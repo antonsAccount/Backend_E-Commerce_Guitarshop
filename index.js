@@ -14,9 +14,11 @@ const requireAuth = require("./middlewares/requireAuth");
 const signup = require("./routes/signup");
 const login = require("./routes/login");
 const instruments = require("./routes/instruments");
+const cart = require("./routes/cart");
 app.use("/signup", signup);
 app.use("/login", login);
 app.use("/instruments", instruments);
+app.use("/cart", cart);
 
 app.get("/", (req, res) => {
   res.send("<div><h2>Welcome to the API of Antons Rare Guitars</h2></div>");
