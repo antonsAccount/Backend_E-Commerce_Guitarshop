@@ -2,8 +2,8 @@ const jwt = require("jsonwebtoken");
 const Users = require("../schemas/Users");
 
 const requireAuth = async (req, res, next) => {
+  console.log("RequireAuth is running".bgRed);
   const { authorization } = req.headers;
-
   console.log("authorization:", authorization);
 
   if (!authorization) {
@@ -23,4 +23,4 @@ const requireAuth = async (req, res, next) => {
     res.status(401).json({ error });
   }
 };
-module.exports = requireAuth;
+module.exports = { requireAuth };

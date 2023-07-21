@@ -18,7 +18,9 @@ const login = async (req, res) => {
     //check if the email is correct
     const user = await Users.findOne({ email });
     if (!user) {
-      return res.status(400).json({ msg: "incorrect email" });
+      return res
+        .status(400)
+        .json({ msg: "incorrect email or user doesnt exist" });
     }
     //check the password
     const match = await bcrypt.compare(password, user.password);
@@ -37,7 +39,7 @@ const updateUser = async (req, res) => {
     const _id = req.params.id;
     const { email, oldPassword, newPassword } = req.body;
     console.log("this still shows");
-    console.log("req.body:".bgWhite, req.body);
+    // console.log("req.body:".bgWhite, req.body);
     //when updating in the Frontend, send a request to /login/:id and either with email and old password or new password and old password.
     //Case: New Email
     if (email) {
@@ -75,7 +77,7 @@ const updateUser = async (req, res) => {
       console.log("after finding user");
       //check whether the pw is correct (make it mandatory for updates)
       const match = await bcrypt.compare(oldPassword, user.password);
-      console.log(match);
+      console.log("correct old pw:", match);
       if (!match) {
         return res.status(400).json({ msg: "incorrect old password" });
       }
@@ -85,9 +87,10 @@ const updateUser = async (req, res) => {
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(newPassword, salt);
       //
-      const samePassword = await bcrypt.compare(oldPassword, newPassword);
+      const samePassword = await bcrypt.compare(newPassword, user.password);
       if (samePassword) {
-        res.status(400).json({
+        console.log("its the same pw".bgRed);
+        return res.status(400).json({
           msg: "you cannot change the password to the same password you already selected",
         });
       }
