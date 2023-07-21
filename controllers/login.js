@@ -128,9 +128,7 @@ const deleteUser = async (req, res) => {
       return res.status(400).json({ msg: "incorrect password" });
     }
     const deletedUser = await Users.findByIdAndDelete(_id);
-    res
-      .status(200)
-      .json({ msg: "success, deleted the following user", deletedUser });
+    return res.status(204).json();
   } catch (error) {
     res.status(400).json({ msg: "error", error });
   }
