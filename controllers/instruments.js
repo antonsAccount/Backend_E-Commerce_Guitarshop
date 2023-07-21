@@ -46,13 +46,13 @@ const addInstrument = async (req, res) => {
 
       console.log("instrumentRes:", instrumentRes);
       return res
-        .status(200)
+        .status(201)
         .json({ msg: "Instrument saved successfully!", instrumentRes });
     } else {
       return res.status(422).json({ error });
     }
   } catch (error) {
-    return res.status(500).json({ msg: error });
+    return res.status(400).json({ msg: error });
   }
 };
 
@@ -97,7 +97,7 @@ const deleteInstrument = async (req, res) => {
   try {
     const _id = req.params.id;
     const deletedInstrument = await Instruments.findByIdAndDelete(_id);
-    return res.status(200).json({ msg: "Success", deletedInstrument });
+    return res.status(204).json();
   } catch (error) {
     res.status(400).json({ msg: "The following error occurred", error });
   }

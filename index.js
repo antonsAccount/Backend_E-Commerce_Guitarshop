@@ -19,7 +19,9 @@ app.use("/signup", signup);
 app.use("/login", login);
 app.use("/instruments", instruments);
 app.use("/cart", cart);
-
+app.use((req, res, next) => {
+  res.status(404).send("Sorry can't find that Route!");
+});
 app.get("/", (req, res) => {
   res.send("<div><h2>Welcome to the API of Antons Rare Guitars</h2></div>");
 });
