@@ -7,7 +7,9 @@ const requireAuth = async (req, res, next) => {
   console.log("authorization:", authorization);
 
   if (!authorization) {
-    return res.status(401).json({ error: " You are not authorized" });
+    return res
+      .status(401)
+      .json({ error: " You are not authorized, please log in!" });
   }
 
   const token = authorization.split(" ")[1];

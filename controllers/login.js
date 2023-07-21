@@ -10,6 +10,7 @@ const createToken = (_id) => {
 // login user
 const login = async (req, res) => {
   try {
+    console.log("Login Tree initialized".blue);
     const { email, password } = req.body;
     //check that i have both field email and password
     if (!email || !password) {
@@ -36,6 +37,7 @@ const login = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
+    console.log("updateUser Tree initialized".blue);
     const _id = req.params.id;
     const { email, oldPassword, newPassword } = req.body;
     console.log("this still shows");
@@ -112,6 +114,7 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
+    console.log("Delete Tree initialized".blue);
     const _id = req.params.id;
     const { password } = req.body;
     if (!password) {
