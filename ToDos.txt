@@ -1,1 +1,10 @@
 -create updateInstruments Route and Controller
+-check updateInstruments Obj Destructuring Logic and Route
+-in the Instruments.findByIdAndUpdate call, does the newInstrument have to be in Curly Braces or not?
+-research response status codes and implement them in each controller file
+-check whether deleteInstrument works
+-check whether deleteUser works
+
+-make unexpired JWT Token (being logged in) mandatory for User Update and User deleteInstrument
+->check how to implement require Auth on routes file
+-send JWT Token after signup

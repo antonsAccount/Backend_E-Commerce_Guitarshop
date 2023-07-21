@@ -9,21 +9,13 @@ const validator = require("validator");
 
 const signup = async (req, res) => {
   try {
-    const { first_name, last_name, birthday, signup_date, email, password } =
-      req.body;
+    const { first_name, last_name, birthday, email, password } = req.body;
     const exists = await Users.findOne({ email });
     if (exists) {
       // throw Error("email already in use");
       return res.status(400).json({ msg: "Email already in use" });
     }
-    if (
-      !email ||
-      !password ||
-      !first_name ||
-      !last_name ||
-      !birthday ||
-      !signup_date
-    ) {
+    if (!email || !password || !first_name || !last_name || !birthday) {
       // throw Error("please fill all fields");
       return res.status(400).json({ msg: "please fill all fields" });
     }
@@ -47,7 +39,6 @@ const signup = async (req, res) => {
       first_name,
       last_name,
       birthday,
-      signup_date,
       email,
       password: hash,
     });

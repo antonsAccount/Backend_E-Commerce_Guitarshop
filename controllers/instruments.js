@@ -1,26 +1,25 @@
 const Instruments = require("../schemas/Instruments");
 
 const addInstrument = async (req, res) => {
-  const {
-    brand,
-    model,
-    year,
-    price,
-    availability,
-    description,
-    color,
-    nutwidth,
-    radius,
-    bag,
-    weight,
-    pickups,
-    body,
-    neck,
-  } = req.body;
-  console.log(req.file);
-
   //image upload
   try {
+    const {
+      brand,
+      model,
+      year,
+      price,
+      availability,
+      description,
+      color,
+      nutwidth,
+      radius,
+      bag,
+      weight,
+      pickups,
+      body,
+      neck,
+    } = req.body;
+    console.log(req.file);
     if (req.file && req.file.path) {
       //remember that the image file must have the key "picture" in the POST Request otherwise the upload fails, see routes/instruments
       const instrument = new Instruments({
@@ -58,16 +57,29 @@ const addInstrument = async (req, res) => {
 const updateInstrument = async (req, res) => {
   try {
     const _id = req.params.id;
-
-    // const {} = req.body
-    //Not knowing which fields will be updated, is there a way to only destructure the variables from the
-    //req.body that exist and then only update them instead of writing the logic for each individual possible key
+    const newInstrument = {};
+    const keysArray = Object.keys(req.body);
+    const var1 = keysArray.map((element) => {
+      newInstrument[element] = req.body[element];
+    });
+    const res = Instruments.findByIdAndUpdate(_id, { newInstrument }); //Curly Braces necessary?!?!
+    return res.status(200).json({ msg: "Success", updatedInstrument: res });
   } catch (error) {
     res.status(400).json({
-      msg: "An error has occurred while updating the instrument",
+      msg: "An error has occurred whilst updating the instrument",
       error,
     });
   }
 };
 
-module.exports = { addInstrument };
+const deleteInstrument = async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const res = await Instruments.findByIdAndDelete(_id);
+    res.status(200).json({ msg: "Success", deleted: res });
+  } catch (error) {
+    res.status(400).json({ msg: "The following error occurred", error });
+  }
+};
+
+module.exports = { addInstrument, updateInstrument, deleteInstrument };
