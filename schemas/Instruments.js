@@ -17,7 +17,7 @@ const instrumentSchema = new mongoose.Schema(
     body: { type: String, required: true }, // Maple
     neck: { type: String, required: true }, // Mahagony
     image_url: { type: String, required: true },
-    status: { type: String },
+    status: { type: String, required: true },
     storage_quantity: { type: Number, required: true },
   },
   { timestamps: true }
